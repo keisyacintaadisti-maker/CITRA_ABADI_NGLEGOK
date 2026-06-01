@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Citra Abadi - Tentang Kami</title>
-    <link rel="stylesheet" href="{{ url_for('assets', filename='style.css') }}">
-    <link rel="stylesheet" href="{{ url_for('assets', filename='responsive.css') }}">
-    <link rel="shortcut icon" href="{{ url_for('assets', filename='img/logo.png') }}" type="image/x-icon">
+    <link rel="stylesheet" href="assets/style.css">
+    <link rel="stylesheet" href="assets/responsive.css">
+    <link rel="shortcut icon" href="assets/img/logo.png" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -15,17 +15,17 @@
     <nav class="navbar" id="navbar">
         <div class="nav-container">
             <div class="nav-logo">
-                <a href="{{ url_for('index') }}">
-                    <img src="{{ url_for('assets', filename='img/logo.png') }}" alt="Citra Abadi Logo" class="logo-img">
+                <a href="index.html">
+                    <img src="assets/img/logo.png" alt="Citra Abadi Logo" class="logo-img">
                     <span class="logo-text">CITRA ABADI</span>
                 </a>
             </div>
             <div class="nav-menu" id="nav-menu">
-                <a href="{{ url_for('index') }}" class="nav-link">Beranda</a>
-                <a href="{{ url_for('about') }}" class="nav-link active">Tentang Kami</a>
-                <a href="{{ url_for('product') }}" class="nav-link">Produk</a>
-                <a href="{{ url_for('contact') }}" class="nav-link">Kontak</a>
-                <a href="{{ url_for('developer') }}" class="nav-link">Developer</a>
+                <a href="index.html" class="nav-link">Beranda</a>
+                <a href="about.html" class="nav-link active">Tentang Kami</a>
+                <a href="product.html" class="nav-link">Produk</a>
+                <a href="contact.html" class="nav-link">Kontak</a>
+                <a href="developer.html" class="nav-link">Developer</a>
                 <div class="search-container">
                     <input type="text" id="search-input" placeholder="Cari produk...">
                 </div>
@@ -49,7 +49,7 @@
             </div>
             <div class="about-content">
                 <div class="about-image">
-                    <img src="{{ url_for('assets', filename='img/toko.jpg') }}" alt="Toko Citra Abadi">
+                    <img src="assets/img/toko.jpg" alt="Toko Citra Abadi">
                 </div>
                 <div class="about-text">
                     <h2>Visi Perusahaan</h2>
@@ -93,7 +93,7 @@
         </div>
     </div>
 
-    <script src="{{ url_for('assets', filename='script.js') }}"></script>
+    <script src="assets/script.js"></script>
     <script>
         window.addEventListener('scroll', () => {
             document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 30);
