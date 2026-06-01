@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Citra Abadi - Beranda</title>
+    <link rel="stylesheet" href="{{ url_for('assets', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('assets', filename='responsive.css') }}">
+    <link rel="shortcut icon" href="{{ url_for('assets', filename='img/logo.png') }}" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="{{ url_for('index') }}">
+                    <img src="{{ url_for('assets', filename='img/logo.png') }}" alt="Citra Abadi Logo" class="logo-img">
+                    <span class="logo-text">CITRA ABADI</span>
+                </a>
+            </div>
+            <div class="nav-menu" id="nav-menu">
+                <a href="{{ url_for('index') }}" class="nav-link active">Beranda</a>
+                <a href="{{ url_for('about') }}" class="nav-link">Tentang Kami</a>
+                <a href="{{ url_for('product') }}" class="nav-link">Produk</a>
+                <a href="{{ url_for('contact') }}" class="nav-link">Kontak</a>
+                <a href="{{ url_for('developer') }}" class="nav-link">Developer</a>
+                <div class="search-container">
+                    <input type="text" id="search-input" placeholder="Cari produk...">
+                </div>
+                <div class="cart-icon">
+                    <a href="#" id="cart-toggle">🛒 <span id="cart-count">0</span></a>
+                </div>
+            </div>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>CITRA ABADI</h1>
+            <p>Solusi percetakan dan desain terpercaya untuk kebutuhan Anda</p>
+            <a href="{{ url_for('product') }}" class="btn-primary">Order Now</a>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <div class="section-title">
+                <h2>Mengapa Memilih Kami?</h2>
+            </div>
+            <div class="features-grid">
+                <div class="feature-item">
+                    <img src="{{ url_for('assets', filename='img/guarantee.png') }}" alt="Kualitas" class="feature-icon">
+                    <h3>Kualitas Terbaik</h3>
+                    <p>Kami menggunakan bahan berkualitas tinggi untuk hasil yang memuaskan</p>
+                </div>
+                <div class="feature-item">
+                    <img src="{{ url_for('assets', filename='img/price-tag.png') }}" alt="Harga" class="feature-icon">
+                    <h3>Harga Terjangkau</h3>
+                    <p>Dapatkan produk berkualitas dengan harga yang bersaing</p>
+                </div>
+                <div class="feature-item">
+                    <img src="{{ url_for('assets', filename='img/working-time.png') }}" alt="Pengalaman" class="feature-icon">
+                    <h3>Pengalaman</h3>
+                    <p>Lebih dari 5 tahun melayani kebutuhan percetakan di Blitar</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-info">
+                <p>&copy; 2025 Citra Abadi. All rights reserved.</p>
+                <p>Nglegok, Kab. Blitar | Telp: (+62) 813-3599-7984</p>
+            </div>
+            <div class="footer-dev">
+                <p>Developed with ❤️ by <span class="dev-name">Kelompok 4</span> | <span class="subject">PWEB</span></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Cart Sidebar -->
+    <div class="cart-sidebar" id="cart-sidebar">
+        <div class="cart-header">
+            <h3>🛒 Keranjang Belanja</h3>
+            <button id="close-cart">&times;</button>
+        </div>
+        <div class="cart-items" id="cart-items">
+            <p style="color:var(--text-light);font-size:0.85rem;text-align:center;padding:40px 0;">Keranjang masih kosong</p>
+        </div>
+        <div class="cart-total">
+            <p>Total: <span id="cart-total-price">Rp 0</span></p>
+            <button class="btn-primary" id="checkout-btn">Beli Sekarang</button>
+        </div>
+    </div>
+
+    <script src="{{ url_for('assets', filename='script.js') }}"></script>
+    <script>
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 30);
+        });
+
+        // Hamburger — pakai class "active" sesuai responsive.css
+        const hamburger = document.getElementById('hamburger');
+        const navMenu   = document.getElementById('nav-menu');
+        hamburger.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            hamburger.classList.toggle('active');
+        });
+
+        // Feature items scroll animation
+        const featureItems = document.querySelectorAll('.feature-item');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('visible');
+            });
+        }, { threshold: 0.15 });
+        featureItems.forEach(item => observer.observe(item));
+    </script>
+</body>
+</html>
