@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Citra Abadi - Kontak</title>
-    <link rel="stylesheet" href="{{ url_for('assets', filename='style.css') }}">
-    <link rel="stylesheet" href="{{ url_for('assets', filename='responsive.css') }}">
-    <link rel="shortcut icon" href="{{ url_for('assets', filename='img/logo.png') }}" type="image/x-icon">
+    <link rel="stylesheet" href="assets/style.css">
+    <link rel="stylesheet" href="assets/responsive.css">
+    <link rel="shortcut icon" href="assets/img/logo.png" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
 
     <style>
@@ -78,17 +78,17 @@
     <nav class="navbar">
         <div class="nav-container">
             <div class="nav-logo">
-                <a href="{{ url_for('index') }}">
-                    <img src="{{ url_for('assets', filename='img/logo.png') }}" alt="Citra Abadi Logo" class="logo-img">
+                <a href="index.html">
+                    <img src="assets/img/logo.png" alt="Citra Abadi Logo" class="logo-img">
                     <span class="logo-text">CITRA ABADI</span>
                 </a>
             </div>
             <div class="nav-menu" id="nav-menu">
-                <a href="{{ url_for('index') }}" class="nav-link">Beranda</a>
-                <a href="{{ url_for('about') }}" class="nav-link">Tentang Kami</a>
-                <a href="{{ url_for('product') }}" class="nav-link">Produk</a>
-                <a href="{{ url_for('contact') }}" class="nav-link active">Kontak</a>
-                <a href="{{ url_for('developer') }}" class="nav-link">Developer</a>
+                <a href="index.html" class="nav-link">Beranda</a>
+                <a href="about.html" class="nav-link">Tentang Kami</a>
+                <a href="product.html" class="nav-link">Produk</a>
+                <a href="contact.html" class="nav-link active">Kontak</a>
+                <a href="developer.html" class="nav-link">Developer</a>
                 <div class="search-container">
                     <input type="text" id="search-input" placeholder="Cari produk...">
                 </div>
@@ -102,7 +102,7 @@
         </div>
     </nav>
 
-    <!-- ===== Contact Section (pakai class CSS yang ada) ===== -->
+    <!-- Contact Section -->
     <div class="contact-container">
         <div class="contact-header">
             <h1>Hubungi Kami</h1>
@@ -138,13 +138,12 @@
                     Kirim Ulasan
                 </button>
 
-                <!-- Pesan sukses/gagal — pakai class .form-message dari CSS -->
                 <div class="form-message" id="form-message"></div>
             </div>
         </div>
     </div>
 
-    <!-- ===== Reviews Section ===== -->
+    <!-- Reviews Section -->
     <section class="reviews-section">
         <div class="container">
             <div class="section-title">
@@ -153,19 +152,7 @@
             </div>
 
             <div class="review-list" id="review-list">
-                {% if reviews %}
-                    {% for r in reviews %}
-                    <div class="review-card">
-                        <div class="reviewer-name">{{ r.nama }}</div>
-                        <div class="reviewer-date">🕒 {{ r.tanggal }}</div>
-                        <div class="reviewer-message">{{ r.pesan }}</div>
-                    </div>
-                    {% endfor %}
-                {% else %}
-                    <div class="no-reviews" id="no-reviews">
-                        ✨ Belum ada ulasan. Jadilah pelanggan pertama yang berbagi pengalaman!
-                    </div>
-                {% endif %}
+                <!-- Diisi oleh JavaScript dari localStorage -->
             </div>
         </div>
     </section>
@@ -200,7 +187,7 @@
         </div>
     </div>
 
-    <script src="{{ url_for('assets', filename='script.js') }}"></script>
+    <script src="assets/script.js"></script>
     <script>
         // ===== Navbar scroll effect =====
         window.addEventListener('scroll', () => {
@@ -209,14 +196,37 @@
 
         // ===== Hamburger =====
         document.getElementById('hamburger').addEventListener('click', () => {
-            document.getElementById('nav-menu').classList.toggle('open');
+            document.getElementById('nav-menu').classList.toggle('active');
         });
 
-        // ===== Submit Review via Fetch API =====
+        // ===== Tampilkan ulasan dari localStorage =====
+        const reviewList = document.getElementById('review-list');
+
+        function loadReviews() {
+            const reviews = JSON.parse(localStorage.getItem('citraAbadi_reviews') || '[]');
+            if (reviews.length === 0) {
+                reviewList.innerHTML = `
+                    <div class="no-reviews" id="no-reviews">
+                        ✨ Belum ada ulasan. Jadilah pelanggan pertama yang berbagi pengalaman!
+                    </div>`;
+            } else {
+                reviewList.innerHTML = reviews.map(r => `
+                    <div class="review-card">
+                        <div class="reviewer-name">${escHtml(r.nama)}</div>
+                        <div class="reviewer-date">🕒 ${escHtml(r.tanggal)}</div>
+                        <div class="reviewer-message">${escHtml(r.pesan)}</div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        loadReviews();
+
+        // ===== Submit Review — simpan ke localStorage =====
         const submitBtn = document.getElementById('submit-review');
         const formMsg   = document.getElementById('form-message');
 
-        submitBtn.addEventListener('click', async () => {
+        submitBtn.addEventListener('click', () => {
             const nama  = document.getElementById('review-name').value.trim();
             const email = document.getElementById('review-email').value.trim();
             const pesan = document.getElementById('review-message').value.trim();
@@ -226,67 +236,30 @@
                 return;
             }
 
-            submitBtn.disabled    = true;
-            submitBtn.textContent = 'Mengirim...';
+            const now = new Date();
+            const tanggal = now.toLocaleDateString('id-ID', {
+                day: '2-digit', month: 'long', year: 'numeric'
+            }) + ', ' + now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
 
-            try {
-                const res  = await fetch('/api/review', {
-                    method:  'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body:    JSON.stringify({ nama, email, pesan })
-                });
-                const data = await res.json();
+            const reviews = JSON.parse(localStorage.getItem('citraAbadi_reviews') || '[]');
+            reviews.unshift({ nama, email, pesan, tanggal });
+            localStorage.setItem('citraAbadi_reviews', JSON.stringify(reviews));
 
-                if (data.success) {
-                    showFormMsg('success', '✅ ' + data.message);
-                    addReviewCard(nama, pesan);
-                    // Reset form
-                    document.getElementById('review-name').value    = '';
-                    document.getElementById('review-email').value   = '';
-                    document.getElementById('review-message').value = '';
-                } else {
-                    showFormMsg('error', '❌ ' + data.message);
-                }
-            } catch (err) {
-                showFormMsg('error', '❌ Gagal mengirim. Periksa koneksi Anda.');
-                console.error(err);
-            }
+            showFormMsg('success', '✅ Ulasan berhasil dikirim! Terima kasih.');
+            document.getElementById('review-name').value    = '';
+            document.getElementById('review-email').value   = '';
+            document.getElementById('review-message').value = '';
 
-            submitBtn.disabled    = false;
-            submitBtn.textContent = 'Kirim Ulasan';
+            loadReviews();
         });
 
         function showFormMsg(type, msg) {
-            // Pakai class .form-message.success / .form-message.error dari style.css
             formMsg.className = 'form-message ' + type;
             formMsg.textContent = msg;
-            // Trigger ulang animasi fadeInOut dari CSS
             formMsg.style.animation = 'none';
             requestAnimationFrame(() => { formMsg.style.animation = ''; });
         }
 
-        function addReviewCard(nama, pesan) {
-            const list     = document.getElementById('review-list');
-            const noReview = document.getElementById('no-reviews');
-            if (noReview) noReview.remove();
-
-            const now = new Date();
-            const tgl = now.toLocaleDateString('id-ID', {
-                day: '2-digit', month: 'long', year: 'numeric'
-            }) + ', ' + now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
-
-            const card = document.createElement('div');
-            card.className = 'review-card';
-            card.style.animation = 'reviewFadeIn 0.4s ease';
-            card.innerHTML = `
-                <div class="reviewer-name">${escHtml(nama)}</div>
-                <div class="reviewer-date">🕒 ${tgl}</div>
-                <div class="reviewer-message">${escHtml(pesan)}</div>
-            `;
-            list.prepend(card);
-        }
-
-        // Hindari XSS — escape karakter HTML
         function escHtml(str) {
             return str
                 .replace(/&/g, '&amp;')
