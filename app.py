@@ -4,7 +4,6 @@ import os
 
 app = Flask(__name__, template_folder='templates', static_folder='assets')
 
-# Inisialisasi database saat pertama run
 init_db()
 
 # ===== Static assets (CSS, JS, img) =====
