@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Citra Abadi - Produk</title>
+    <link rel="stylesheet" href="{{ url_for('assets', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('assets', filename='responsive.css') }}">
+    <link rel="shortcut icon" href="{{ url_for('assets', filename='img/logo.png') }}" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+
+    <style>
+        .product-hero {
+            background: linear-gradient(rgba(0,0,0,0.55), rgba(255,255,255,0.55)),
+                        url("{{ url_for('assets', filename='img/toko.jpg') }}") center/cover no-repeat;
+            color: #fff;
+            text-align: center;
+            padding: 5rem 1rem 4rem;
+        }
+        .product-hero h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+        }
+        .product-hero p {
+            font-size: 1rem;
+            opacity: 0.88;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        /* Filter Bar */
+        .filter-bar {
+            background: #fff;
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 68px;
+            z-index: 900;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .filter-bar-inner {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            overflow-x: auto;
+            scrollbar-width: none;
+            padding: 0.8rem 1.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .filter-bar-inner::-webkit-scrollbar { display: none; }
+        .filter-btn {
+            white-space: nowrap;
+            padding: 0.4rem 1.2rem;
+            border-radius: 20px;
+            border: 1.5px solid var(--border);
+            background: #fff;
+            color: var(--text);
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.82rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+        .filter-btn:hover { border-color: var(--primary); color: var(--primary); }
+        .filter-btn.active {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: #fff;
+            box-shadow: 0 3px 10px rgba(37,99,235,0.25);
+        }
+
+        /* Products */
+        .products { padding: 3rem 0 5rem; background-color: var(--bg); }
+        .products-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+        }
+        .products-header h2 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin: 0;
+        }
+        .product-count-badge {
+            background: var(--primary-light);
+            color: var(--primary);
+            font-size: 0.78rem;
+            font-weight: 600;
+            padding: 0.25rem 0.9rem;
+            border-radius: 12px;
+        }
+
+        /* Card overrides untuk halaman produk */
+        .product-card { animation: fadeUp 0.5s ease both; }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(24px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .product-card:nth-child(1){animation-delay:.05s}
+        .product-card:nth-child(2){animation-delay:.10s}
+        .product-card:nth-child(3){animation-delay:.15s}
+        .product-card:nth-child(4){animation-delay:.20s}
+        .product-card:nth-child(5){animation-delay:.25s}
+        .product-card:nth-child(6){animation-delay:.30s}
+        .product-card:nth-child(7){animation-delay:.35s}
+        .product-card:nth-child(8){animation-delay:.40s}
+
+        .product-img-placeholder { font-size: 3rem; position: absolute; }
+
+        .product-badge {
+            position: absolute;
+            top: 10px; left: 10px;
+            font-size: 0.65rem;
+            font-weight: 700;
+            padding: 3px 10px;
+            border-radius: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #fff;
+            z-index: 1;
+        }
+        .badge-popular { background: #f4a623; }
+        .badge-new     { background: #28a745; }
+
+        .product-category-label {
+            font-size: 0.68rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: var(--primary);
+            margin-bottom: 0.3rem;
+        }
+        .product-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.5rem;
+        }
+        .product-price {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--primary);
+            line-height: 1.2;
+        }
+        .product-price small {
+            display: block;
+            font-size: 0.65rem;
+            font-weight: 400;
+            color: var(--text-light);
+            font-family: 'Poppins', sans-serif;
+        }
+        .btn-cart {
+            background-color: var(--primary);
+            color: #fff;
+            border: none;
+            border-radius: var(--radius-xs);
+            padding: 0.5rem 1rem;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.78rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+        .btn-cart:hover { background-color: var(--primary-dark); transform: scale(1.04); }
+
+        /* Empty State */
+        .empty-state { text-align: center; padding: 60px 20px; display: none; }
+        .empty-state .icon { font-size: 3.5rem; margin-bottom: 1rem; }
+        .empty-state h3 { font-family: 'Montserrat', sans-serif; color: var(--dark); margin-bottom: 0.5rem; }
+        .empty-state p   { color: var(--text-light); font-size: 0.88rem; }
+
+        /* Cart qty buttons */
+        .cart-item-qty { display: flex; align-items: center; gap: 8px; }
+        .qty-btn {
+            width: 26px; height: 26px;
+            border-radius: 50%;
+            border: 1.5px solid var(--border);
+            background: #fff;
+            font-size: 1rem;
+            cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 600;
+            color: var(--text-light);
+            transition: all 0.15s;
+        }
+        .qty-btn:hover { border-color: var(--primary); color: var(--primary); }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 28px; left: 50%;
+            transform: translateX(-50%) translateY(80px);
+            background: var(--dark);
+            color: #fff;
+            padding: 0.75rem 1.5rem;
+            border-radius: 24px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            z-index: 1400;
+            transition: transform 0.3s ease;
+            white-space: nowrap;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+        }
+        .toast.show { transform: translateX(-50%) translateY(0); }
+
+        /* Cart overlay */
+        .cart-overlay {
+            position: fixed; inset: 0;
+            background: rgba(0,0,0,0.4);
+            z-index: 1199; display: none;
+        }
+        .cart-overlay.show { display: block; }
+
+        @media (max-width: 768px) {
+            .product-hero h1 { font-size: 1.8rem; }
+            .products-header { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="{{ url_for('index') }}">
+                    <img src="{{ url_for('assets', filename='img/logo.png') }}" alt="Citra Abadi Logo" class="logo-img">
+                    <span class="logo-text">CITRA ABADI</span>
+                </a>
+            </div>
+            <div class="nav-menu" id="nav-menu">
+                <a href="{{ url_for('index') }}" class="nav-link">Beranda</a>
+                <a href="{{ url_for('about') }}" class="nav-link">Tentang Kami</a>
+                <a href="{{ url_for('product') }}" class="nav-link active">Produk</a>
+                <a href="{{ url_for('contact') }}" class="nav-link">Kontak</a>
+                <a href="{{ url_for('developer') }}" class="nav-link">Developer</a>
+                <div class="search-container">
+                    <input type="text" id="search-input" placeholder="Cari produk...">
+                </div>
+                <div class="cart-icon">
+                    <a href="#" id="cart-toggle">🛒 <span id="cart-count">0</span></a>
+                </div>
+            </div>
+            <div class="hamburger" id="hamburger">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <div class="product-hero">
+        <h1>Produk Kami</h1>
+        <p>Solusi percetakan & desain berkualitas tinggi untuk kebutuhan bisnis dan personal Anda</p>
+    </div>
+
+    <!-- Filter Bar -->
+    <div class="filter-bar">
+        <div class="filter-bar-inner">
+            <button class="filter-btn active" data-filter="all">Semua</button>
+            <button class="filter-btn" data-filter="banner">Banner</button>
+            <button class="filter-btn" data-filter="undangan">Undangan</button>
+            <button class="filter-btn" data-filter="stempel">Stempel</button>
+            <button class="filter-btn" data-filter="desain">Desain Grafis</button>
+        </div>
+    </div>
+
+    <!-- Products Section -->
+    <section class="products">
+        <div class="container">
+            <div class="products-header">
+                <h2>Daftar Produk</h2>
+                <span class="product-count-badge" id="product-count">8 Produk</span>
+            </div>
+
+            <div class="products-grid" id="product-grid">
+
+                <div class="product-card" data-category="banner">
+                    <div class="product-img">
+                        <img src="{{ url_for('assets', filename='img/banner.jpg') }}" alt="Banner Spanduk" onerror="this.style.display='none'">
+                        <div class="product-img-placeholder"></div>
+                        <span class="product-badge badge-popular">Popular</span>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-category-label">Banner</div>
+                        <h3>Banner Spanduk Custom</h3>
+                        <p>Spanduk berkualitas tinggi berbahan flexi indoor/outdoor. Cocok untuk promosi, acara, dan dekorasi.</p>
+                        <div class="product-footer">
+                            <div class="product-price">Rp 45.000<small>per meter</small></div>
+                            <button class="btn-cart" data-name="Banner Spanduk Custom" data-price="45000">+ Keranjang</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card" data-category="banner">
+                    <div class="product-img">
+                        <img src="{{ url_for('assets', filename='img/buku-yasin.jpg') }}" alt="Buku Yasin" onerror="this.style.display='none'">
+                        <div class="product-img-placeholder"></div>
+                        <span class="product-badge badge-new">Baru</span>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-category-label">Produk</div>
+                        <h3>Buku Yasin</h3>
+                        <p>X-Banner siap pasang lengkap dengan tiang stand. Ideal untuk pameran, toko, dan presentasi.</p>
+                        <div class="product-footer">
+                            <div class="product-price">Rp 85.000<small>per pcs</small></div>
+                            <button class="btn-cart" data-name="Buku Yasin" data-price="85000">+ Keranjang</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card" data-category="undangan">
+                    <div class="product-img">
+                        <img src="{{ url_for('assets', filename='img/undangan.jpg') }}" alt="Undangan Pernikahan" onerror="this.style.display='none'">
+                        <div class="product-img-placeholder"></div>
+                        <span class="product-badge badge-popular">Popular</span>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-category-label">Undangan</div>
+                        <h3>Undangan</h3>
+                        <p>Undangan pernikahan eksklusif dengan desain elegan. Tersedia berbagai pilihan model dan finishing.</p>
+                        <div class="product-footer">
+                            <div class="product-price">Rp 2.500<small>per lembar (min. 100)</small></div>
+                            <button class="btn-cart" data-name="Undangan Pernikahan" data-price="250000">+ Keranjang</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card" data-category="undangan">
+                    <div class="product-img">
+                        <img src="{{ url_for('assets', filename='img/nota.jpg') }}" alt="Nota" onerror="this.style.display='none'">
+                        <div class="product-img-placeholder"></div>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-category-label">Produk</div>
+                        <h3>Nota</h3>
+                        <p>Nota cetak full color untuk berbagai keperluan bisnis. Desain menarik dan kertas berkualitas.</p>
+                        <div class="product-footer">
+                            <div class="product-price">Rp 1.800<small>per lembar (min. 50)</small></div>
+                            <button class="btn-cart" data-name="Nota" data-price="90000">+ Keranjang</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card" data-category="stempel">
+                    <div class="product-img">
+                        <img src="{{ url_for('assets', filename='img/stempel-kayu.jpg') }}" alt="Stempel Kayu" onerror="this.style.display='none'">
+                        <div class="product-img-placeholder"></div>
+                        <span class="product-badge badge-new">Baru</span>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-category-label">Stempel</div>
+                        <h3>Stempel Kayu</h3>
+                        <p>Stempel kayu dengan tinta otomatis, tidak perlu bantalan tinta. Awet dan tahan lama untuk keperluan kantor.</p>
+                        <div class="product-footer">
+                            <div class="product-price">Rp 55.000<small>per pcs</small></div>
+                            <button class="btn-cart" data-name="Stempel Kayu" data-price="55000">+ Keranjang</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card" data-category="stempel">
+                    <div class="product-img">
+                        <img src="{{ url_for('assets', filename='img/stempel-flash.jpg') }}" alt="Stempel Flash" onerror="this.style.display='none'">
+                        <div class="product-img-placeholder"></div>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-category-label">Stempel</div>
+                        <h3>Stempel Flash</h3>
+                        <p>Stempel custom sesuai desain logo dan teks Anda. Cocok untuk keperluan bisnis dan instansi.</p>
+                        <div class="product-footer">
+                            <div class="product-price">Rp 75.000<small>per pcs</small></div>
+                            <button class="btn-cart" data-name="Stempel Flash" data-price="75000">+ Keranjang</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card" data-category="desain">
+                    <div class="product-img">
+                        <img src="{{ url_for('assets', filename='img/undangan pernikahan.png') }}" alt="Undangan Pernikahan Desain" onerror="this.style.display='none'">
+                        <div class="product-img-placeholder"></div>
+                        <span class="product-badge badge-popular">Popular</span>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-category-label">Desain Grafis</div>
+                        <h3>Undangan Pernikahan</h3>
+                        <p>Desain undangan pernikahan profesional. Termasuk file siap cetak dan revisi hingga puas.</p>
+                        <div class="product-footer">
+                            <div class="product-price">Rp 150.000<small>per desain</small></div>
+                            <button class="btn-cart" data-name="Desain Undangan Pernikahan" data-price="150000">+ Keranjang</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card" data-category="desain">
+                    <div class="product-img">
+                        <img src="{{ url_for('assets', filename='img/brosur.jpg') }}" alt="Brosur" onerror="this.style.display='none'">
+                        <div class="product-img-placeholder"></div>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-category-label">Desain Grafis</div>
+                        <h3>Brosur</h3>
+                        <p>Desain brosur / pamflet promosi yang menarik dan profesional. Siap cetak dalam format print-ready.</p>
+                        <div class="product-footer">
+                            <div class="product-price">Rp 80.000<small>per desain</small></div>
+                            <button class="btn-cart" data-name="Desain Brosur" data-price="80000">+ Keranjang</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div><!-- end products-grid -->
+
+            <div class="empty-state" id="empty-state">
+                <div class="icon">🔍</div>
+                <h3>Produk Tidak Ditemukan</h3>
+                <p>Coba pilih kategori lain atau hubungi kami untuk kebutuhan khusus.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-info">
+                <p>&copy; 2025 Citra Abadi. All rights reserved.</p>
+                <p>Nglegok, Kab. Blitar | Telp: (+62) 813-3599-7984</p>
+            </div>
+            <div class="footer-dev">
+                <p>Developed with ❤️ by <span class="dev-name">Kelompok 4</span> | <span class="subject">PWEB</span></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Cart Overlay & Sidebar -->
+    <div class="cart-overlay" id="cart-overlay"></div>
+    <div class="cart-sidebar" id="cart-sidebar">
+        <div class="cart-header">
+            <h3>🛒 Keranjang Belanja</h3>
+            <button id="close-cart">&times;</button>
+        </div>
+        <div class="cart-items" id="cart-items">
+            <p style="color:var(--text-light);font-size:0.85rem;text-align:center;padding:40px 0;">Keranjang masih kosong</p>
+        </div>
+        <div class="cart-total">
+            <p>Total: <span id="cart-total-price">Rp 0</span></p>
+            <button class="btn-primary" id="checkout-btn">Beli Sekarang via WhatsApp</button>
+        </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        // ===== Navbar =====
+        window.addEventListener('scroll', () => {
+            document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 30);
+        });
+
+        // ===== Hamburger — class "active" sesuai responsive.css =====
+        const hamburger = document.getElementById('hamburger');
+        const navMenu   = document.getElementById('nav-menu');
+        hamburger.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            hamburger.classList.toggle('active');
+        });
+
+        // ===== Filter =====
+        const filterBtns   = document.querySelectorAll('.filter-btn');
+        const cards        = document.querySelectorAll('.product-card');
+        const productCount = document.getElementById('product-count');
+        const emptyState   = document.getElementById('empty-state');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const filter = btn.dataset.filter;
+                let visible  = 0;
+                cards.forEach(card => {
+                    const match = filter === 'all' || card.dataset.category === filter;
+                    card.style.display = match ? 'flex' : 'none';
+                    if (match) {
+                        card.style.animation = 'none';
+                        requestAnimationFrame(() => { card.style.animation = ''; });
+                        visible++;
+                    }
+                });
+                productCount.textContent = visible + ' Produk';
+                emptyState.style.display = visible === 0 ? 'block' : 'none';
+            });
+        });
+
+        // ===== Search =====
+        document.getElementById('search-input').addEventListener('input', function() {
+            const q = this.value.toLowerCase();
+            let visible = 0;
+            cards.forEach(card => {
+                const name  = card.querySelector('h3').textContent.toLowerCase();
+                const cat   = card.querySelector('.product-category-label').textContent.toLowerCase();
+                const match = name.includes(q) || cat.includes(q);
+                card.style.display = match ? 'flex' : 'none';
+                if (match) visible++;
+            });
+            productCount.textContent = visible + ' Produk';
+            emptyState.style.display = visible === 0 ? 'block' : 'none';
+            filterBtns.forEach(b => b.classList.remove('active'));
+            filterBtns[0].classList.add('active');
+        });
+
+        // ===== Cart =====
+        let cart = [];
+
+        const cartSidebar = document.getElementById('cart-sidebar');
+        const cartOverlay = document.getElementById('cart-overlay');
+        const cartItemsEl = document.getElementById('cart-items');
+        const cartCountEl = document.getElementById('cart-count');
+        const cartTotalEl = document.getElementById('cart-total-price');
+        const toast       = document.getElementById('toast');
+
+        document.getElementById('cart-toggle').addEventListener('click', e => { e.preventDefault(); openCart(); });
+        document.getElementById('close-cart').addEventListener('click', closeCartFn);
+        cartOverlay.addEventListener('click', closeCartFn);
+
+        function openCart()    { cartSidebar.classList.add('active'); cartOverlay.classList.add('show'); }
+        function closeCartFn() { cartSidebar.classList.remove('active'); cartOverlay.classList.remove('show'); }
+
+        function showToast(msg) {
+            toast.textContent = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2400);
+        }
+
+        function formatRp(n) { return 'Rp ' + n.toLocaleString('id-ID'); }
+
+        function renderCart() {
+            if (cart.length === 0) {
+                cartItemsEl.innerHTML = '<p style="color:var(--text-light);font-size:0.85rem;text-align:center;padding:40px 0;">Keranjang masih kosong</p>';
+            } else {
+                cartItemsEl.innerHTML = cart.map((item, idx) => `
+                    <div class="cart-item">
+                        <div class="cart-item-info">
+                            <h4>${item.name}</h4>
+                            <p>${formatRp(item.price)}</p>
+                        </div>
+                        <div class="cart-item-qty">
+                            <button class="qty-btn" onclick="changeQty(${idx}, -1)">−</button>
+                            <span style="font-size:.88rem;font-weight:600;min-width:20px;text-align:center">${item.qty}</span>
+                            <button class="qty-btn" onclick="changeQty(${idx}, 1)">+</button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+            const total = cart.reduce((s, i) => s + i.price * i.qty, 0);
+            cartTotalEl.textContent = formatRp(total);
+            cartCountEl.textContent = cart.reduce((s, i) => s + i.qty, 0);
+        }
+
+        function changeQty(idx, delta) {
+            cart[idx].qty += delta;
+            if (cart[idx].qty <= 0) cart.splice(idx, 1);
+            renderCart();
+        }
+
+        document.querySelectorAll('.btn-cart').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const name  = btn.dataset.name;
+                const price = parseInt(btn.dataset.price);
+                const existing = cart.find(i => i.name === name);
+                if (existing) { existing.qty++; }
+                else { cart.push({ name, price, qty: 1 }); }
+                renderCart();
+                showToast('✅ ' + name + ' ditambahkan!');
+            });
+        });
+
+        document.getElementById('checkout-btn').addEventListener('click', () => {
+            if (cart.length === 0) { showToast('Keranjang masih kosong!'); return; }
+            const lines = cart.map(i => `• ${i.name} x${i.qty} = ${formatRp(i.price * i.qty)}`).join('\n');
+            const total = cart.reduce((s, i) => s + i.price * i.qty, 0);
+            const msg   = encodeURIComponent(
+                `Halo Citra Abadi, saya ingin memesan:\n\n${lines}\n\nTotal: ${formatRp(total)}\n\nMohon konfirmasinya, terima kasih!`
+            );
+            window.open(`https://wa.me/6281335997984?text=${msg}`, '_blank');
+        });
+    </script>
+</body>
+</html>
