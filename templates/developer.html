@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Citra Abadi - Developer</title>
-    <link rel="stylesheet" href="{{ url_for('assets', filename='style.css') }}">
-    <link rel="stylesheet" href="{{ url_for('assets', filename='responsive.css') }}">
-    <link rel="shortcut icon" href="{{ url_for('assets', filename='img/logo.png') }}" type="image/x-icon">
+    <link rel="stylesheet" href="assets/style.css">
+    <link rel="stylesheet" href="assets/responsive.css">
+    <link rel="shortcut icon" href="assets/img/logo.png" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -15,17 +15,17 @@
     <nav class="navbar" id="navbar">
         <div class="nav-container">
             <div class="nav-logo">
-                <a href="{{ url_for('index') }}">
-                    <img src="{{ url_for('assets', filename='img/logo.png') }}" alt="Citra Abadi Logo" class="logo-img">
+                <a href="index.html">
+                    <img src="assets/img/logo.png" alt="Citra Abadi Logo" class="logo-img">
                     <span class="logo-text">CITRA ABADI</span>
                 </a>
             </div>
             <div class="nav-menu" id="nav-menu">
-                <a href="{{ url_for('index') }}" class="nav-link">Beranda</a>
-                <a href="{{ url_for('about') }}" class="nav-link">Tentang Kami</a>
-                <a href="{{ url_for('product') }}" class="nav-link">Produk</a>
-                <a href="{{ url_for('contact') }}" class="nav-link">Kontak</a>
-                <a href="{{ url_for('developer') }}" class="nav-link active">Developer</a>
+                <a href="index.html" class="nav-link">Beranda</a>
+                <a href="about.html" class="nav-link">Tentang Kami</a>
+                <a href="product.html" class="nav-link">Produk</a>
+                <a href="contact.html" class="nav-link">Kontak</a>
+                <a href="developer.html" class="nav-link active">Developer</a>
                 <div class="search-container">
                     <input type="text" id="search-input" placeholder="Cari produk...">
                 </div>
@@ -53,7 +53,7 @@
                 <div class="developer-row">
                     <div class="developer-card">
                         <div class="developer-img">
-                            <img src="{{ url_for('assets', filename='img/Evan.png') }}" alt="Evan Cristianto">
+                            <img src="assets/img/Evan.png" alt="Evan Cristianto">
                         </div>
                         <h3>Evan Cristianto</h3>
                         <p class="developer-role">Halaman Developer</p>
@@ -62,7 +62,7 @@
 
                     <div class="developer-card">
                         <div class="developer-img">
-                            <img src="{{ url_for('assets', filename='img/lutfhan.jpg') }}" alt="Ahmad Luthfan Wijayana">
+                            <img src="assets/img/lutfhan.jpg" alt="Ahmad Luthfan Wijayana">
                         </div>
                         <h3>Ahmad Luthfan Wijayana</h3>
                         <p class="developer-role">Halaman Kontak</p>
@@ -71,7 +71,7 @@
 
                     <div class="developer-card">
                         <div class="developer-img">
-                            <img src="{{ url_for('assets', filename='img/johan.jpg') }}" alt="Johan Alvin Kurniawan">
+                            <img src="assets/img/johan.jpg" alt="Johan Alvin Kurniawan">
                         </div>
                         <h3>Johan Alvin Kurniawan</h3>
                         <p class="developer-role">Halaman Produk</p>
@@ -83,7 +83,7 @@
                 <div class="developer-row">
                     <div class="developer-card">
                         <div class="developer-img">
-                            <img src="{{ url_for('assets', filename='img/alvita.jpg') }}" alt="Alvita Najwa Zahrotun N.">
+                            <img src="assets/img/alvita.jpg" alt="Alvita Najwa Zahrotun N.">
                         </div>
                         <h3>Alvita Najwa Zahrotun N.</h3>
                         <p class="developer-role">Halaman Beranda</p>
@@ -92,7 +92,7 @@
 
                     <div class="developer-card">
                         <div class="developer-img">
-                            <img src="{{ url_for('assets', filename='img/cinta.jpg') }}" alt="Keisya Cinta Adisti">
+                            <img src="assets/img/cinta.jpg" alt="Keisya Cinta Adisti">
                         </div>
                         <h3>Keisya Cinta Adisti</h3>
                         <p class="developer-role">Halaman Tentang Kami</p>
@@ -131,7 +131,7 @@
         </div>
     </div>
 
-    <script src="{{ url_for('assets', filename='script.js') }}"></script>
+    <script src="assets/script.js"></script>
     <script>
         window.addEventListener('scroll', () => {
             document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 30);
