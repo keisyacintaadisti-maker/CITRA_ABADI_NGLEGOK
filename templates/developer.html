@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Citra Abadi - Developer</title>
+    <link rel="stylesheet" href="{{ url_for('assets', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('assets', filename='responsive.css') }}">
+    <link rel="shortcut icon" href="{{ url_for('assets', filename='img/logo.png') }}" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="{{ url_for('index') }}">
+                    <img src="{{ url_for('assets', filename='img/logo.png') }}" alt="Citra Abadi Logo" class="logo-img">
+                    <span class="logo-text">CITRA ABADI</span>
+                </a>
+            </div>
+            <div class="nav-menu" id="nav-menu">
+                <a href="{{ url_for('index') }}" class="nav-link">Beranda</a>
+                <a href="{{ url_for('about') }}" class="nav-link">Tentang Kami</a>
+                <a href="{{ url_for('product') }}" class="nav-link">Produk</a>
+                <a href="{{ url_for('contact') }}" class="nav-link">Kontak</a>
+                <a href="{{ url_for('developer') }}" class="nav-link active">Developer</a>
+                <div class="search-container">
+                    <input type="text" id="search-input" placeholder="Cari produk...">
+                </div>
+                <div class="cart-icon">
+                    <a href="#" id="cart-toggle">🛒 <span id="cart-count">0</span></a>
+                </div>
+            </div>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Developer Section -->
+    <section class="developer">
+        <div class="container">
+            <div class="section-title">
+                <h1>Tim Developer Kami</h1>
+                <p>Bertemu dengan tim kreatif di balik Citra Abadi</p>
+            </div>
+            <div class="developers-grid">
+                <!-- Baris 1 -->
+                <div class="developer-row">
+                    <div class="developer-card">
+                        <div class="developer-img">
+                            <img src="{{ url_for('assets', filename='img/Evan.png') }}" alt="Evan Cristianto">
+                        </div>
+                        <h3>Evan Cristianto</h3>
+                        <p class="developer-role">Halaman Developer</p>
+                        <a href="https://evanpersonal629-code.github.io/Personal-/HTMl/index.html" target="_blank" class="github-link">Lihat Portfolio</a>
+                    </div>
+
+                    <div class="developer-card">
+                        <div class="developer-img">
+                            <img src="{{ url_for('assets', filename='img/lutfhan.jpg') }}" alt="Ahmad Luthfan Wijayana">
+                        </div>
+                        <h3>Ahmad Luthfan Wijayana</h3>
+                        <p class="developer-role">Halaman Kontak</p>
+                        <a href="https://ahmadluthfanwijayana.github.io/PortoLuthfan/" target="_blank" class="github-link">Lihat Portfolio</a>
+                    </div>
+
+                    <div class="developer-card">
+                        <div class="developer-img">
+                            <img src="{{ url_for('assets', filename='img/johan.jpg') }}" alt="Johan Alvin Kurniawan">
+                        </div>
+                        <h3>Johan Alvin Kurniawan</h3>
+                        <p class="developer-role">Halaman Produk</p>
+                        <a href="https://johanalvin.github.io/Portofolio-Johan/" target="_blank" class="github-link">Lihat Portfolio</a>
+                    </div>
+                </div>
+
+                <!-- Baris 2 -->
+                <div class="developer-row">
+                    <div class="developer-card">
+                        <div class="developer-img">
+                            <img src="{{ url_for('assets', filename='img/alvita.jpg') }}" alt="Alvita Najwa Zahrotun N.">
+                        </div>
+                        <h3>Alvita Najwa Zahrotun N.</h3>
+                        <p class="developer-role">Halaman Beranda</p>
+                        <a href="https://alvita-najwa.github.io/portofolio.alvita/" target="_blank" class="github-link">Lihat Portfolio</a>
+                    </div>
+
+                    <div class="developer-card">
+                        <div class="developer-img">
+                            <img src="{{ url_for('assets', filename='img/cinta.jpg') }}" alt="Keisya Cinta Adisti">
+                        </div>
+                        <h3>Keisya Cinta Adisti</h3>
+                        <p class="developer-role">Halaman Tentang Kami</p>
+                        <a href="https://keisyacintaadisti-maker.github.io/cinta/" target="_blank" class="github-link">Lihat Portfolio</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-info">
+                <p>&copy; 2025 Citra Abadi. All rights reserved.</p>
+                <p>Nglegok, Kab. Blitar | Telp: (+62) 813-3599-7984</p>
+            </div>
+            <div class="footer-dev">
+                <p>Developed with ❤️ by <span class="dev-name">Kelompok 4</span> | <span class="subject">PWEB</span></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Cart Sidebar -->
+    <div class="cart-sidebar" id="cart-sidebar">
+        <div class="cart-header">
+            <h3>🛒 Keranjang Belanja</h3>
+            <button id="close-cart">&times;</button>
+        </div>
+        <div class="cart-items" id="cart-items">
+            <p style="color:var(--text-light);font-size:0.85rem;text-align:center;padding:40px 0;">Keranjang masih kosong</p>
+        </div>
+        <div class="cart-total">
+            <p>Total: <span id="cart-total-price">Rp 0</span></p>
+            <button class="btn-primary" id="checkout-btn">Beli Sekarang</button>
+        </div>
+    </div>
+
+    <script src="{{ url_for('assets', filename='script.js') }}"></script>
+    <script>
+        window.addEventListener('scroll', () => {
+            document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 30);
+        });
+
+        const hamburger = document.getElementById('hamburger');
+        const navMenu   = document.getElementById('nav-menu');
+        hamburger.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            hamburger.classList.toggle('active');
+        });
+    </script>
+</body>
+</html>
