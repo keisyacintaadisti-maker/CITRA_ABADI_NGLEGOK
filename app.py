@@ -1,17 +1,28 @@
-from flask import Flask, render_template, request, jsonify, send_from_directory
-from database import init_db, save_review, get_all_reviews
-import os
+from flask import Flask, render_template, request, redirect
+import sqlite3
 
-app = Flask(__name__, template_folder='templates', static_folder='assets')
+app = Flask(__name__)
+
+def get_db():
+    conn = sqlite3.connect('database.db')
+    conn.row_factory = sqlite3.Row
+    return conn
+
+# buat database
+def init_db():
+    conn = sqlite3.connect('database.db')
+    conn.execute('''
+    CREATE TABLE IF NOT EXISTS contact (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        nama TEXT,
+        pesan TEXT
+    )
+    ''')
+    conn.close()
 
 init_db()
 
-# ===== Static assets (CSS, JS, img) =====
-@app.route('/assets/<path:filename>')
-def assets(filename):
-    return send_from_directory('assets', filename)
-
-# ===== Halaman-halaman =====
+# halaman utama
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -24,32 +35,43 @@ def about():
 def product():
     return render_template('product.html')
 
-@app.route('/contact')
-def contact():
-    reviews = get_all_reviews()
-    return render_template('contact.html', reviews=reviews)
-
 @app.route('/developer')
 def developer():
     return render_template('developer.html')
 
-# ===== API Ulasan =====
-@app.route('/api/review', methods=['POST'])
-def submit_review():
-    data  = request.get_json()
-    nama  = data.get('nama',  '').strip()
-    email = data.get('email', '').strip()
-    pesan = data.get('pesan', '').strip()
+# contact page + database
+@app.route('/contact')
+def contact():
+    db = get_db()
+    data = db.execute('SELECT * FROM contact').fetchall()
+    db.close()
+    return render_template('contact.html', data=data)
 
-    if not nama or not email or not pesan:
-        return jsonify({'success': False, 'message': 'Semua field harus diisi!'}), 400
+@app.route('/kirim', methods=['POST'])
+def kirim():
+    nama = request.form['nama']
+    pesan = request.form['pesan']
 
-    save_review(nama, email, pesan)
-    return jsonify({'success': True, 'message': 'Ulasan berhasil dikirim, terima kasih!'})
+    db = get_db()
+    db.execute('INSERT INTO contact (nama, pesan) VALUES (?, ?)', (nama, pesan))
+    db.commit()
+    db.close()
 
-@app.route('/api/reviews', methods=['GET'])
-def get_reviews():
-    return jsonify(get_all_reviews())
+    return redirect('/contact')
 
-if __name__ == '__main__':
-    app.run(debug=True)
+app.run(debug=True)
+@app.route('/')
+def home():
+    return render_template('index.html')
+
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
+@app.route('/contact')
+def contact():
+    return render_template('contact.html')
+
+@app.route('/product')
+def product():
+    return render_template('product.html')
