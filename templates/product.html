@@ -4,15 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Citra Abadi - Produk</title>
-    <link rel="stylesheet" href="{{ url_for('assets', filename='style.css') }}">
-    <link rel="stylesheet" href="{{ url_for('assets', filename='responsive.css') }}">
-    <link rel="shortcut icon" href="{{ url_for('assets', filename='img/logo.png') }}" type="image/x-icon">
+    <link rel="stylesheet" href="assets/style.css">
+    <link rel="stylesheet" href="assets/responsive.css">
+    <link rel="shortcut icon" href="assets/img/logo.png" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
 
     <style>
         .product-hero {
             background: linear-gradient(rgba(0,0,0,0.55), rgba(255,255,255,0.55)),
-                        url("{{ url_for('assets', filename='img/toko.jpg') }}") center/cover no-repeat;
+                        url("assets/img/toko.jpg") center/cover no-repeat;
             color: #fff;
             text-align: center;
             padding: 5rem 1rem 4rem;
@@ -96,7 +96,7 @@
             border-radius: 12px;
         }
 
-        /* Card overrides untuk halaman produk */
+        /* Card overrides */
         .product-card { animation: fadeUp 0.5s ease both; }
         @keyframes fadeUp {
             from { opacity: 0; transform: translateY(24px); }
@@ -231,17 +231,17 @@
     <nav class="navbar" id="navbar">
         <div class="nav-container">
             <div class="nav-logo">
-                <a href="{{ url_for('index') }}">
-                    <img src="{{ url_for('assets', filename='img/logo.png') }}" alt="Citra Abadi Logo" class="logo-img">
+                <a href="index.html">
+                    <img src="assets/img/logo.png" alt="Citra Abadi Logo" class="logo-img">
                     <span class="logo-text">CITRA ABADI</span>
                 </a>
             </div>
             <div class="nav-menu" id="nav-menu">
-                <a href="{{ url_for('index') }}" class="nav-link">Beranda</a>
-                <a href="{{ url_for('about') }}" class="nav-link">Tentang Kami</a>
-                <a href="{{ url_for('product') }}" class="nav-link active">Produk</a>
-                <a href="{{ url_for('contact') }}" class="nav-link">Kontak</a>
-                <a href="{{ url_for('developer') }}" class="nav-link">Developer</a>
+                <a href="index.html" class="nav-link">Beranda</a>
+                <a href="about.html" class="nav-link">Tentang Kami</a>
+                <a href="product.html" class="nav-link active">Produk</a>
+                <a href="contact.html" class="nav-link">Kontak</a>
+                <a href="developer.html" class="nav-link">Developer</a>
                 <div class="search-container">
                     <input type="text" id="search-input" placeholder="Cari produk...">
                 </div>
@@ -284,7 +284,7 @@
 
                 <div class="product-card" data-category="banner">
                     <div class="product-img">
-                        <img src="{{ url_for('assets', filename='img/banner.jpg') }}" alt="Banner Spanduk" onerror="this.style.display='none'">
+                        <img src="assets/img/banner.jpg" alt="Banner Spanduk" onerror="this.style.display='none'">
                         <div class="product-img-placeholder"></div>
                         <span class="product-badge badge-popular">Popular</span>
                     </div>
@@ -301,7 +301,7 @@
 
                 <div class="product-card" data-category="banner">
                     <div class="product-img">
-                        <img src="{{ url_for('assets', filename='img/buku-yasin.jpg') }}" alt="Buku Yasin" onerror="this.style.display='none'">
+                        <img src="assets/img/buku-yasin.jpg" alt="Buku Yasin" onerror="this.style.display='none'">
                         <div class="product-img-placeholder"></div>
                         <span class="product-badge badge-new">Baru</span>
                     </div>
@@ -318,7 +318,7 @@
 
                 <div class="product-card" data-category="undangan">
                     <div class="product-img">
-                        <img src="{{ url_for('assets', filename='img/undangan.jpg') }}" alt="Undangan Pernikahan" onerror="this.style.display='none'">
+                        <img src="assets/img/undangan.jpg" alt="Undangan Pernikahan" onerror="this.style.display='none'">
                         <div class="product-img-placeholder"></div>
                         <span class="product-badge badge-popular">Popular</span>
                     </div>
@@ -335,7 +335,7 @@
 
                 <div class="product-card" data-category="undangan">
                     <div class="product-img">
-                        <img src="{{ url_for('assets', filename='img/nota.jpg') }}" alt="Nota" onerror="this.style.display='none'">
+                        <img src="assets/img/nota.jpg" alt="Nota" onerror="this.style.display='none'">
                         <div class="product-img-placeholder"></div>
                     </div>
                     <div class="product-info">
@@ -351,7 +351,7 @@
 
                 <div class="product-card" data-category="stempel">
                     <div class="product-img">
-                        <img src="{{ url_for('assets', filename='img/stempel-kayu.jpg') }}" alt="Stempel Kayu" onerror="this.style.display='none'">
+                        <img src="assets/img/stempel-kayu.jpg" alt="Stempel Kayu" onerror="this.style.display='none'">
                         <div class="product-img-placeholder"></div>
                         <span class="product-badge badge-new">Baru</span>
                     </div>
@@ -368,7 +368,7 @@
 
                 <div class="product-card" data-category="stempel">
                     <div class="product-img">
-                        <img src="{{ url_for('assets', filename='img/stempel-flash.jpg') }}" alt="Stempel Flash" onerror="this.style.display='none'">
+                        <img src="assets/img/stempel-flash.jpg" alt="Stempel Flash" onerror="this.style.display='none'">
                         <div class="product-img-placeholder"></div>
                     </div>
                     <div class="product-info">
@@ -384,7 +384,7 @@
 
                 <div class="product-card" data-category="desain">
                     <div class="product-img">
-                        <img src="{{ url_for('assets', filename='img/undangan pernikahan.png') }}" alt="Undangan Pernikahan Desain" onerror="this.style.display='none'">
+                        <img src="assets/img/undangan pernikahan.png" alt="Undangan Pernikahan Desain" onerror="this.style.display='none'">
                         <div class="product-img-placeholder"></div>
                         <span class="product-badge badge-popular">Popular</span>
                     </div>
@@ -401,7 +401,7 @@
 
                 <div class="product-card" data-category="desain">
                     <div class="product-img">
-                        <img src="{{ url_for('assets', filename='img/brosur.jpg') }}" alt="Brosur" onerror="this.style.display='none'">
+                        <img src="assets/img/brosur.jpg" alt="Brosur" onerror="this.style.display='none'">
                         <div class="product-img-placeholder"></div>
                     </div>
                     <div class="product-info">
@@ -462,7 +462,7 @@
             document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 30);
         });
 
-        // ===== Hamburger — class "active" sesuai responsive.css =====
+        // ===== Hamburger =====
         const hamburger = document.getElementById('hamburger');
         const navMenu   = document.getElementById('nav-menu');
         hamburger.addEventListener('click', () => {
